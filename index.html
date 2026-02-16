@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Happy Birthday!</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      background: linear-gradient(45deg, #ff9a9e, #fad0c4, #fbc2eb, #a6c1ee, #d4fcf0);
+      background-size: 400% 400%;
+      animation: bgShift 20s ease infinite;
+      font-family: 'Helvetica', sans-serif;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
+
+    @keyframes bgShift {
+      0% {background-position:0% 50%;}
+      50% {background-position:100% 50%;}
+      100% {background-position:0% 50%;}
+    }
+
+    .typing::after {
+      content: "|";
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    .glow {
+      display: inline-block;
+      animation: pulseGlow 2s infinite alternate;
+      font-weight: 600;
+      color: #10b981;
+    }
+    @keyframes pulseGlow {
+      0% { text-shadow: 0 0 2px #34d399; }
+      50% { text-shadow: 0 0 5px #34d399; }
+      100% { text-shadow: 0 0 2px #34d399; }
+    }
+
+    .letter-box {
+      background: linear-gradient(145deg, #ffffff, #f0fdf4);
+      padding: 2.5rem;
+      border-radius: 1.5rem;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+      border: 2px solid #34d399;
+      margin-top: 1rem;
+      line-height: 1.7;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .emoji-line {
+      font-size: 2rem;
+      margin: 0.5rem 0;
+    }
+
+    /* Sparkles around the letter box only */
+    .sparkle {
+      position: absolute;
+      font-size: 0.9rem;
+      animation: floatUp linear infinite;
+      opacity: 0.5;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(100%); opacity:0; }
+      10% { opacity:0.5; }
+      100% { transform: translateY(-50%); opacity:0; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="max-w-md w-full text-center relative overflow-hidden">
+
+    <h1 class="text-4xl font-extrabold text-pink-500 mb-2">
+      🎂 Happy Birthday! 🎉
+    </h1>
+
+    <div class="emoji-line">
+      🎉🎈🎁✨
+    </div>
+
+    <h2 class="text-3xl font-semibold text-emerald-600 mb-4">
+      Hey Sowa,
+    </h2>
+
+    <!-- Letter box with sparkles -->
+    <div class="letter-box" id="letterBox">
+      <p class="text-gray-700 text-lg mb-4">
+        I just wanted to remind you how special this day is.  
+        May this year bring you peace, growth, and quiet happiness.  
+        You are amazing. <br>
+        You deserve every love of this world. <br>
+        You deserve all the happiness that exists in the world.  
+        You deserve moments that feel light and meaningful.
+      </p>
+
+      <p id="typingText" class="text-emerald-600 text-xl glow typing mt-2"></p>
+    </div>
+
+    <button onclick="celebrate()" class="mt-6 px-6 py-3 bg-pink-500 text-white rounded-xl shadow hover:bg-pink-600 transition">
+      Click for Surprise 🎊
+    </button>
+
+  </div>
+
+<script>
+  // Typing effect
+  const text = "Keep smiling because smiling suits you the most.";
+  let index = 0;
+  const speed = 50;
+  function typeEffect() {
+    if (index < text.length) {
+      document.getElementById("typingText").innerHTML += text.charAt(index);
+      index++;
+      setTimeout(typeEffect, speed);
+    }
+  }
+  window.onload = typeEffect;
+
+  // Confetti
+  function celebrate() {
+    confetti({
+      particleCount: 150,
+      spread: 100,
+      origin: { y: 0.6 },
+      colors: ['#ff9a9e', '#fad0c4', '#fbc2eb', '#a6c1ee', '#34d399', '#10b981']
+    });
+    setTimeout(() => {
+      confetti({ particleCount: 100, spread: 120, origin: { x: 0.1 }, colors: ['#ff9a9e','#fad0c4','#fbc2eb','#a6c1ee'] });
+      confetti({ particleCount: 100, spread: 120, origin: { x: 0.9 }, colors: ['#ff9a9e','#fad0c4','#fbc2eb','#a6c1ee'] });
+    }, 300);
+  }
+
+  // Sparkles around letter box
+  const letterBox = document.getElementById('letterBox');
+  const colors = ['#10b981','#34d399','#6ee7b7','#d9f99d'];
+  for(let i=0;i<15;i++){
+    const sparkle = document.createElement('div');
+    sparkle.className = 'sparkle';
+    // Position inside letter box
+    sparkle.style.left = Math.random()*100 + '%';
+    sparkle.style.top = Math.random()*100 + '%';
+    sparkle.style.fontSize = 10 + Math.random()*12 + 'px';
+    sparkle.style.animationDuration = 5 + Math.random()*5 + 's';
+    sparkle.style.color = colors[Math.floor(Math.random()*colors.length)];
+    sparkle.innerHTML = '✨';
+    letterBox.appendChild(sparkle);
+  }
+</script>
+
+</body>
+</html>
